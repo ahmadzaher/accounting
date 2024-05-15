@@ -1,0 +1,24 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.btn, .card-header {
+    font-size: 23px !important;
+}
+.nav-link {
+    font-size: 30px !important;
+}
+h1{
+    font-size: 70px !important;
+}
+*, .col-form-label{
+    font-size: 23px !important;
+}
+.btn{
+    font-size: 23px !important;
+}
