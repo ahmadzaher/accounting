@@ -5135,7 +5135,53 @@ Vue.component('example-component', (__webpack_require__(/*! ./components/Example
  */
 
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  data: function data() {
+    return {
+      filter_client: ''
+    };
+  },
+  methods: {
+    change_filter_type: function change_filter_type() {
+      var filter_type = document.getElementById('filter_type').value;
+      if (filter_type > 0) {
+        this.insertParam('type', filter_type);
+      } else {
+        this.insertParam('type', '');
+      }
+    },
+    change_filter_client: function change_filter_client() {
+      var filter_client = document.getElementById('filter_client').value;
+      if (filter_client > 0) {
+        this.insertParam('client_id', filter_client);
+      } else {
+        this.insertParam('client_id', '');
+      }
+    },
+    insertParam: function insertParam(key, value) {
+      key = encodeURIComponent(key);
+      value = encodeURIComponent(value);
+
+      // kvp looks like ['key1=value1', 'key2=value2', ...]
+      var kvp = document.location.search.substr(1).split('&');
+      var i = 0;
+      for (; i < kvp.length; i++) {
+        if (kvp[i].startsWith(key + '=')) {
+          var pair = kvp[i].split('=');
+          pair[1] = value;
+          kvp[i] = pair.join('=');
+          break;
+        }
+      }
+      if (i >= kvp.length) {
+        kvp[kvp.length] = [key, value].join('=');
+      }
+
+      // can return this or...
+      // reload page with new params
+      document.location.search = kvp.join('&');
+    }
+  }
 });
 
 /***/ }),

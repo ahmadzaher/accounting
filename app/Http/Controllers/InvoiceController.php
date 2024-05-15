@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Invoice;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
@@ -24,12 +25,25 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = Invoice::orderBy('created_at', 'desc')->with('client')->whereHas('client', function ($query) {
-            return $query->where('user_id', '=', Auth::id());
-        })->get();
-        return view('invoices/invoices', compact('invoices'));
+        $client_id = $request['client_id'];
+        $type = $request['type'];
+        $invoices = Invoice::orderBy('created_at', 'desc')
+            ->with('client')
+            ->whereHas('client', function ($query) {
+                return $query->where('user_id', '=', Auth::id());
+            })->whereHas('client', function ($query) use ($client_id) {
+                if($client_id)
+                    return $query->where('id', '=', $client_id);
+                else return $query;
+            })->where(function ($query) use ($type) {
+                if($type)
+                    return $query->where('type', '=', $type);
+                else return $query;
+            })->get();
+        $clients = Client::orderBy('created_at', 'desc')->where('user_id', Auth::id())->get();
+        return view('invoices/invoices', compact('invoices', 'clients', 'client_id', 'type'));
     }
 
     /**
