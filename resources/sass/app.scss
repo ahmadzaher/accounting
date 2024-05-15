@@ -8,17 +8,20 @@
 @import '~bootstrap/scss/bootstrap';
 
 .btn, .card-header {
-    font-size: 23px !important;
+    font-size: 1em !important;
 }
 .nav-link {
-    font-size: 30px !important;
+    font-size: 1.8em !important;
 }
 h1{
-    font-size: 50px !important;
+    font-size: 3em !important;
 }
-*, .col-form-label{
-    font-size: 19px !important;
+.col-form-label, select{
+    font-size: 1.2em !important;
 }
 .btn{
-    font-size: 16px !important;
+    font-size: 1.2em !important;
+}
+*{
+    font-size: 17px;
 }
