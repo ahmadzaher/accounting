@@ -40,7 +40,9 @@
                     <th class="w-20">عنوان الفاتورة</th>
                     <th class="w-20">المبلغ</th>
                     <th class="w-20">النوع</th>
-                    <th class="w-20">العميل</th>
+                    @if(!$client_id)
+                        <th class="w-20">العميل</th>
+                    @endif
                     <th class="w-20">التحكم</th>
                 </tr>
                 </thead>
@@ -50,7 +52,9 @@
                         <td class="w-20">{{ $invoice->name }}</td>
                         <td class="w-20">{{ $invoice->amount }}</td>
                         <td class="w-20">{{ $invoice->type == 1 ? 'دفع' : 'استلام' }}</td>
-                        <td class="w-20">{{ $invoice->client->name }}</td>
+                        @if(!$client_id)
+                            <td class="w-20">{{ $invoice->client->name }}</td>
+                        @endif
                         <td class="w-20">
                             <a href="{{ route('invoices.edit', $invoice->id) }}" class="btn btn-success btn-sm mt-3">تعديل</a>
                             <a target="_blank" href="https://wa.me/+963{{ substr($invoice->client->phonenumber, 1) }}?text=تم {{ $invoice->type == 1 ? 'دفع' : 'استلام' }} فاتورة *{{ $invoice->name }}* بمبلغ {{ $invoice->amount }} بتاريخ {{ $invoice->created_at }}" class="btn btn-primary mt-3 btn-sm">واتساب</a>

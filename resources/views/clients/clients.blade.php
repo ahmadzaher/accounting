@@ -20,11 +20,13 @@
                             <td class="w-25">{{ $client->name }}</td>
                             <td class="w-25">{{ $client->phonenumber }}</td>
                             <td class="w-50">
-                                <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-success btn-sm">تعديل</a>
+                                <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-success btn-sm mt-3">تعديل</a>
+                                <a href="{{ url('invoices?client_id=' . $client->id) }}" class="btn btn-primary btn-sm mt-3">الفواتير</a>
+
                                 <form onsubmit="return confirm('هل أنت متأكد من أنك تريد الحذف؟');" action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+                                    <button type="submit" class="btn btn-danger btn-sm mt-3" >حذف</button>
                                 </form>
                             </td>
                         </tr>
