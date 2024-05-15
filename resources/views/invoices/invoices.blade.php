@@ -4,35 +4,41 @@
     <div class="container">
         <h1 class="text-center h1">الفواتير</h1>
         <a href="{{ route('invoices.create') }}" class="btn btn-primary mb-3">اضافة فاتورة جديدة</a>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="row my-2">
-                    <label for="filter_client" class="col-md-3 col-form-label text-md-end">العميل</label>
+        <form action="{{ route('invoices.index') }}" method="GET">
+            <div class="row">
 
-                    <div class="col-md-9">
-                        <select v-on:change="change_filter_client()" name="filter_client" required id="filter_client" class="form-control form-select">
-                            <option value="">اختر العميل</option>
-                            @foreach($clients as $client)
-                                <option {{ $client_id == $client->id ? 'selected' : '' }} value="{{ $client->id }}">{{ $client->name }}</option>
-                            @endforeach
-                        </select>
+                <div class="col-md-3">
+                    <div class="row my-2">
+                        <label for="client_id" class="col-md-3 col-form-label text-md-end">العميل</label>
+
+                        <div class="col-md-9">
+                            <select name="client_id" id="client_id" class="form-control form-select">
+                                <option value="">اختر العميل</option>
+                                @foreach($clients as $client)
+                                    <option {{ $client_id == $client->id ? 'selected' : '' }} value="{{ $client->id }}">{{ $client->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="row my-2">
-                    <label for="filter_type" class="col-md-3 col-form-label text-md-end">النوع</label>
+                <div class="col-md-3">
+                    <div class="row my-2">
+                        <label for="type" class="col-md-3 col-form-label text-md-end">النوع</label>
 
-                    <div class="col-md-9">
-                        <select v-on:change="change_filter_type()" name="filter_type" required id="filter_type" class="form-control">
-                            <option value="">اختر النوع ( دفع, استلام )</option>
-                            <option {{ $type == 1 ? 'selected' : '' }} value="1">دفع</option>
-                            <option {{ $type == 2 ? 'selected' : '' }} value="2">استلام</option>
-                        </select>
+                        <div class="col-md-9">
+                            <select name="type" id="type" class="form-control">
+                                <option value="">اختر النوع ( دفع, استلام )</option>
+                                <option {{ $type == 1 ? 'selected' : '' }} value="1">دفع</option>
+                                <option {{ $type == 2 ? 'selected' : '' }} value="2">استلام</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary my-2">تحديث</button>
+                </div>
             </div>
-        </div>
+        </form>
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
                 <thead>
