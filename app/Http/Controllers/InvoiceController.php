@@ -27,8 +27,12 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
+        $current_url = $request->fullUrl();
+        $print = $request['print'];
         $client_id = $request['client_id'];
         $type = $request['type'];
+        $year = $request['year'] ? $request['year'] : date('Y');
+        $month = $request['month'] ? $request['month'] : date('m');
         $invoices = Invoice::orderBy('created_at', 'desc')
             ->with('client')
             ->whereHas('client', function ($query) {
@@ -41,9 +45,17 @@ class InvoiceController extends Controller
                 if($type)
                     return $query->where('type', '=', $type);
                 else return $query;
+            })->where(function ($query) use ($year) {
+                if($year)
+                    return $query->whereYear('created_at', '=', $year);
+                else return $query;
+            })->where(function ($query) use ($month) {
+                if($month)
+                    return $query->whereMonth('created_at', '=', $month);
+                else return $query;
             })->get();
         $clients = Client::orderBy('created_at', 'desc')->where('user_id', Auth::id())->get();
-        return view('invoices/invoices', compact('invoices', 'clients', 'client_id', 'type'));
+        return view(!$print ? 'invoices/invoices': 'invoices/invoice_print', compact('invoices', 'clients', 'client_id', 'type', 'year', 'month', 'current_url'));
     }
 
     /**
